@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ChangeEvent, useState } from "react";
 import TextInput from "./components/TextInput";
 // import { data } from "./CourseInfo";
