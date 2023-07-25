@@ -6,6 +6,7 @@ import Table from "./components/Table";
 import OptionTable from "./components/OptionTable";
 import SolutionContainer from "./components/SolutionContainer";
 import TimeTable from "./components/TimeTable";
+import { render } from "react-dom";
 
 function get_combinations(arr_in) {
   let result = [];
@@ -224,7 +225,8 @@ function App(tot_data) {
   const sortListGA = (listIn) => {
     listIn.sort((a, b) => (a["num_conflict"] > b["num_conflict"] ? 1 : -1));
   };
-  function get_random_solution_dict(course_code_list, course_input_list) {
+  const [showCombinationText, setShowCombinationText] = useState(false);
+  function get_random_solution_dict(sem, course_code_list, course_input_list) {
     let solution_dict = { num_conflict: 0, fitness_value: 0 };
     let tmp_list = [];
     for (var j = 0; j < course_code_list.length; j++) {
@@ -251,6 +253,7 @@ function App(tot_data) {
     } else {
       solution_dict["fitness_value"] = 1 / solution_dict["num_conflict"];
     }
+    solution_dict["sem"] = sem;
     // console.log(solution_dict);
     // console.log(course_input_list);
     return solution_dict;
@@ -363,6 +366,7 @@ function App(tot_data) {
     let solution_list = [];
     for (let i = 0; i < 20; i++) {
       const generated_dict = get_random_solution_dict(
+        sem,
         course_code_list,
         course_input_list
       );
@@ -500,6 +504,7 @@ function App(tot_data) {
       solution_list = updated_solution_list.slice();
       while (solution_list.length < 20) {
         const generated_dict = get_random_solution_dict(
+          sem,
           course_code_list,
           course_input_list
         );
@@ -625,7 +630,41 @@ function App(tot_data) {
     }
   };
   return (
-    <div className="container mx-auto my-auto">
+    <div className="container mx-auto my-auto py-4">
+      <div className="row">
+        <div className="card">
+          <div className="card-body">
+            <h1 className="card-title">HKU Timetable Planner</h1>
+            <p className="justify">
+              Welcome to this web app. To start with, search for for the courses
+              and click to add them. Play with the switches to specify the
+              semester for each course. You may also select a specific subclass
+              for each semester. The app will automatically search for
+              combinations in the whole year if you do not specify or courses
+              from both semesters are selected. Meanwhile, please pay attention
+              to the followings:
+            </p>
+            <ul>
+              <li>
+                It may take up to 20 seconds to generate the results, please be
+                patient. If your browser says the app is not responding, select
+                continue and wait.
+              </li>
+              <li>
+                Whole year courses and summer semester courses are not supported
+                at the momment.
+              </li>
+              <li>
+                Courses with extraordinary course codes/subclass codes are
+                currently not supported.
+              </li>
+              <li>
+                The database is developed base on 2023/24 course timetable.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
       <div className="row">
         <div className="col">
           <h1 className="display-6">Browse Courses</h1>
@@ -688,19 +727,26 @@ function App(tot_data) {
               sortList(sel_list);
               setSelectedList(sel_list);
             }}
-            onClickRunGA={getInputForGA}
+            onClickRunGA={(a, b, c, d) => {
+              setShowCombinationText(false);
+              getInputForGA(a, b, c, d);
+              setShowCombinationText(true);
+            }}
           ></OptionTable>
         </div>
       </div>
       <div className="row">
         <h1 className="display-6">
-          Possible Combinations: {solutionList.length} found
+          {"Possible Combinations: " +
+            solutionList.length.toString() +
+            " found"}
         </h1>
         <SolutionContainer
           solution_list={solutionList}
           equivalent_getter={get_equivalent}
           sol_onClick={handleToggleSolution}
           sol_checkSelect={checkSelectedSolution}
+          sol_noneSelected={solSelected == -1}
         ></SolutionContainer>
         {solSelected >= 0 && <h1>Timetable for Solution {solSelected}</h1>}
       </div>
