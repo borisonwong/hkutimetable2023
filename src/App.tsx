@@ -630,137 +630,145 @@ function App(tot_data) {
     }
   };
   return (
-    <div className="container mx-auto my-auto py-4">
-      <div className="row">
-        <div className="card">
-          <div className="card-body">
-            <h1 className="card-title">HKU Timetable Planner</h1>
-            <p className="justify">
-              Welcome to this web app. To start with, search for for the courses
-              and click to add them. Play with the switches to specify the
-              semester for each course. You may also select a specific subclass
-              for each semester. The app will automatically search for
-              combinations in the whole year if you do not specify or courses
-              from both semesters are selected. Meanwhile, please pay attention
-              to the followings:
-            </p>
-            <ul>
-              <li>
-                It may take up to 20 seconds to generate the results, please be
-                patient. If your browser says the app is not responding, select
-                continue and wait.
-              </li>
-              <li>
-                The algorithm will not generate all possible combinations. Also,
-                each time you may obtain different results.
-              </li>
-              <li>
-                Whole year courses and summer semester courses are not supported
-                at the momment.
-              </li>
-              <li>
-                Courses with extraordinary course codes/subclass codes are
-                currently not supported.
-              </li>
-              <li>
-                The database is developed base on 2023/24 course timetable.
-              </li>
-            </ul>
+    <>
+      <div className="container mx-auto my-auto py-4">
+        <div className="row">
+          <div className="card">
+            <div className="card-body">
+              <h1 className="card-title">HKU Timetable Planner</h1>
+              <p className="justify">
+                Welcome to this web app. To start with, search for for the
+                courses and click to add them. Play with the switches to specify
+                the semester for each course. You may also select a specific
+                subclass for each semester. The app will automatically search
+                for combinations in the whole year if you do not specify or
+                courses from both semesters are selected. Meanwhile, please pay
+                attention to the followings:
+              </p>
+              <ul>
+                <li>
+                  It may take up to 20 seconds to generate the results, please
+                  be patient. If your browser says the app is not responding,
+                  select continue and wait.
+                </li>
+                <li>
+                  The algorithm will not generate all possible combinations.
+                  Also, each time you may obtain different results.
+                </li>
+                <li>
+                  Whole year courses and summer semester courses are not
+                  supported at the momment.
+                </li>
+                <li>
+                  Courses with extraordinary course codes/subclass codes are
+                  currently not supported.
+                </li>
+                <li>
+                  The database is developed base on 2023/24 course timetable.
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <h1 className="display-6">Browse Courses</h1>
-          <TextInput
-            onChange={handleCodeSearch}
-            placeholder="Course code"
-            icon="#"
-          ></TextInput>
-          <TextInput
-            onChange={handleTitleSearch}
-            placeholder="Course title"
-            icon="T"
-          ></TextInput>
-          <Table
-            data_in={showList.filter((item) => {
-              return codeSearch === "" && titleSearch === ""
-                ? item
-                : item["COURSE CODE"]
-                    .toLowerCase()
-                    .includes(codeSearch.toLowerCase()) &&
-                    item["COURSE TITLE"]
+        <div className="row">
+          <div className="col">
+            <h1 className="display-6">Browse Courses</h1>
+            <TextInput
+              onChange={handleCodeSearch}
+              placeholder="Course code"
+              icon="#"
+            ></TextInput>
+            <TextInput
+              onChange={handleTitleSearch}
+              placeholder="Course title"
+              icon="T"
+            ></TextInput>
+            <Table
+              data_in={showList.filter((item) => {
+                return codeSearch === "" && titleSearch === ""
+                  ? item
+                  : item["COURSE CODE"]
                       .toLowerCase()
-                      .includes(titleSearch.toLowerCase());
-            })}
-            header_in={["Course Code", "Course Title"]}
-            onClick={(item_in: string) => {
-              var sh_list = [...showList];
-              var sel_list = [...selectedList];
-              const pos_index = sh_list.findIndex(
-                (item) => item["COURSE CODE"] == item_in
-              );
-              const chosen_item = sh_list[pos_index];
-              sel_list = [...sel_list, chosen_item];
-              sortList(sel_list);
-              setSelectedList(sel_list);
-              sh_list.splice(pos_index, 1);
-              sortList(sh_list);
-              setShowList(sh_list);
-            }}
-            showMax={5}
-          ></Table>
+                      .includes(codeSearch.toLowerCase()) &&
+                      item["COURSE TITLE"]
+                        .toLowerCase()
+                        .includes(titleSearch.toLowerCase());
+              })}
+              header_in={["Course Code", "Course Title"]}
+              onClick={(item_in: string) => {
+                var sh_list = [...showList];
+                var sel_list = [...selectedList];
+                const pos_index = sh_list.findIndex(
+                  (item) => item["COURSE CODE"] == item_in
+                );
+                const chosen_item = sh_list[pos_index];
+                sel_list = [...sel_list, chosen_item];
+                sortList(sel_list);
+                setSelectedList(sel_list);
+                sh_list.splice(pos_index, 1);
+                sortList(sh_list);
+                setShowList(sh_list);
+              }}
+              showMax={5}
+            ></Table>
+          </div>
+          <div className="col">
+            <h1 className="display-6">Course Selected</h1>
+            <OptionTable
+              data_in={selectedList}
+              header_in={["Course Code", "Course Title", "S1", "S2", "Remove"]}
+              showMax={10}
+              onClick={(item_in: string) => {
+                var sh_list = [...showList];
+                var sel_list = [...selectedList];
+                const pos_index = sel_list.findIndex(
+                  (item) => item["COURSE CODE"] == item_in
+                );
+                const chosen_item = sel_list[pos_index];
+                sh_list = [...sh_list, chosen_item];
+                sortList(sh_list);
+                setShowList(sh_list);
+                sel_list.splice(pos_index, 1);
+                sortList(sel_list);
+                setSelectedList(sel_list);
+              }}
+              onClickRunGA={(a, b, c, d) => {
+                setShowCombinationText(false);
+                getInputForGA(a, b, c, d);
+                setShowCombinationText(true);
+              }}
+            ></OptionTable>
+          </div>
         </div>
-        <div className="col">
-          <h1 className="display-6">Course Selected</h1>
-          <OptionTable
-            data_in={selectedList}
-            header_in={["Course Code", "Course Title", "S1", "S2", "Remove"]}
-            showMax={10}
-            onClick={(item_in: string) => {
-              var sh_list = [...showList];
-              var sel_list = [...selectedList];
-              const pos_index = sel_list.findIndex(
-                (item) => item["COURSE CODE"] == item_in
-              );
-              const chosen_item = sel_list[pos_index];
-              sh_list = [...sh_list, chosen_item];
-              sortList(sh_list);
-              setShowList(sh_list);
-              sel_list.splice(pos_index, 1);
-              sortList(sel_list);
-              setSelectedList(sel_list);
-            }}
-            onClickRunGA={(a, b, c, d) => {
-              setShowCombinationText(false);
-              getInputForGA(a, b, c, d);
-              setShowCombinationText(true);
-            }}
-          ></OptionTable>
+        <div className="row">
+          <h1 className="display-6">
+            {"Possible Combinations: " +
+              solutionList.length.toString() +
+              " found"}
+          </h1>
+          <SolutionContainer
+            solution_list={solutionList}
+            equivalent_getter={get_equivalent}
+            sol_onClick={handleToggleSolution}
+            sol_checkSelect={checkSelectedSolution}
+            sol_noneSelected={solSelected == -1}
+          ></SolutionContainer>
+          {solSelected >= 0 && <h1>Timetable for Solution {solSelected}</h1>}
         </div>
+        {solSelected >= 0 && (
+          <TimeTable
+            solution={solutionList[solSelected - 1]}
+            is_time_overlap={is_time_overlap}
+          ></TimeTable>
+        )}
       </div>
-      <div className="row">
-        <h1 className="display-6">
-          {"Possible Combinations: " +
-            solutionList.length.toString() +
-            " found"}
-        </h1>
-        <SolutionContainer
-          solution_list={solutionList}
-          equivalent_getter={get_equivalent}
-          sol_onClick={handleToggleSolution}
-          sol_checkSelect={checkSelectedSolution}
-          sol_noneSelected={solSelected == -1}
-        ></SolutionContainer>
-        {solSelected >= 0 && <h1>Timetable for Solution {solSelected}</h1>}
+      <div
+        className="text-center p-4"
+        style={{ "background-color": "rgba(0, 0, 0, 0.025)" }}
+      >
+        Last update: 25th July 2023. Beta version.
       </div>
-      {solSelected >= 0 && (
-        <TimeTable
-          solution={solutionList[solSelected - 1]}
-          is_time_overlap={is_time_overlap}
-        ></TimeTable>
-      )}
-    </div>
+    </>
   );
 }
 
