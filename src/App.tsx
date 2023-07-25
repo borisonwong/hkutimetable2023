@@ -8,6 +8,32 @@ import SolutionContainer from "./components/SolutionContainer";
 import TimeTable from "./components/TimeTable";
 import { render } from "react-dom";
 
+const color_choice = [
+  "#D3F8E2",
+  "#E4C1F9",
+  "#F694C1",
+  "#EDE7B1",
+  "#A9DEF9",
+  "#F5F6F6",
+  "#E8D8CD",
+  "#DBB19C",
+  "#D49173",
+  "#AED1D5",
+];
+
+function get_random_seq(num) {
+  let output_seq = [];
+  let choice_set = color_choice.slice();
+  for (var iter = 0; iter < num; iter++) {
+    if (choice_set.length == 0) {
+      choice_set = color_choice.slice();
+    }
+    const gen_index = Math.floor(Math.random() * choice_set.length);
+    output_seq.push(choice_set[gen_index]);
+    choice_set.splice(gen_index, 1);
+  }
+  return output_seq;
+}
 function get_combinations(arr_in) {
   let result = [];
   for (var i = 0; i < arr_in.length; i += 1) {
@@ -307,7 +333,7 @@ function App(tot_data) {
     var course_input_list = [];
     var course_count = 0;
     var generation_req = 0;
-    console.log(sem);
+    // console.log(sem);
     if (sem == 3) {
       generation_req = 15;
     } else {
@@ -533,7 +559,7 @@ function App(tot_data) {
         break;
       }
     }
-    console.log(updated_solution_list);
+    // console.log(updated_solution_list);
     if (cut_index > -1) {
       updated_solution_list = updated_solution_list.slice(0, cut_index);
     } else {
@@ -544,6 +570,7 @@ function App(tot_data) {
       let all_time_row_date_list = [];
       const subclass_list = solution["solution_list"];
       // let subclass_name_list = [];
+      const color_seq = get_random_seq(subclass_list.length);
       for (let subclass_dict_iter in subclass_list) {
         const subclass_dict = subclass_list[subclass_dict_iter];
         for (let course_row_iter in subclass_dict["COURSE ROW LIST"]) {
@@ -591,14 +618,16 @@ function App(tot_data) {
                 "CLASS SECTION": time_row_dict_1["CLASS SECTION"],
                 "START TIME": start_time_1,
                 "END TIME": end_time_1,
+                COLOR: color_seq[subclass_dict_iter],
               };
+              // console.log(color_seq[subclass_dict_iter]);
               all_time_row_date_list.push(datetime_dict);
             }
           }
         }
       }
       solution["ALL TIME ROW DATE"] = all_time_row_date_list;
-      console.log(solution);
+      // console.log(solution);
     }
     solution_list = updated_solution_list.slice();
     setSolutionList(solution_list);
@@ -733,6 +762,7 @@ function App(tot_data) {
                 setSelectedList(sel_list);
               }}
               onClickRunGA={(a, b, c, d) => {
+                setSolutionSelected(-1);
                 setShowCombinationText(false);
                 getInputForGA(a, b, c, d);
                 setShowCombinationText(true);
