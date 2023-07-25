@@ -651,6 +651,10 @@ function App(tot_data) {
                 continue and wait.
               </li>
               <li>
+                The algorithm will not generate all possible combinations. Also,
+                each time you may obtain different results.
+              </li>
+              <li>
                 Whole year courses and summer semester courses are not supported
                 at the momment.
               </li>
