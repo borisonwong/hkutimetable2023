@@ -4,7 +4,21 @@ import { ChangeEvent, useState } from "react";
 
 const TimeTable = ({ solution, is_time_overlap }) => {
   const all_time_row_date_list = solution["ALL TIME ROW DATE"];
-
+  function getTimePeriodFromNum(num_start, num_end) {
+    const hour_start = Math.floor(num_start / 60);
+    const min_start = num_start - hour_start * 60;
+    const hour_end = Math.floor(num_end / 60);
+    const min_end = num_end - hour_end * 60;
+    return (
+      hour_start.toString() +
+      ":" +
+      min_start.toString() +
+      " - " +
+      hour_end.toString() +
+      ":" +
+      min_end.toString()
+    );
+  }
   function getCellDisplay(start_date, delta_day, time_range_str) {
     var check_date = new Date(start_date);
     check_date.setDate(check_date.getDate() + delta_day);
@@ -32,7 +46,11 @@ const TimeTable = ({ solution, is_time_overlap }) => {
         is_overlap &&
         !is_prev_overlap
       ) {
-        return [k["COURSE CODE"] + "-" + k["CLASS SECTION"], k["COLOR"]];
+        return [
+          k["COURSE CODE"] + "-" + k["CLASS SECTION"],
+          k["COLOR"],
+          getTimePeriodFromNum(k["START TIME"], k["END TIME"]),
+        ];
       }
     }
     return "";
@@ -109,9 +127,6 @@ const TimeTable = ({ solution, is_time_overlap }) => {
         is_overlap &&
         is_prev_overlap
       ) {
-        // console.log(k["DATE"].getTime() == check_date.getTime());
-        // console.log(is_overlap);
-        // console.log(is_prev_overlap);
         return false;
       }
     }
@@ -255,6 +270,7 @@ const TimeTable = ({ solution, is_time_overlap }) => {
                     item_time
                   );
                   const text = returnFromCellDisplay[0];
+                  const time_text = returnFromCellDisplay[2];
                   return (
                     <td
                       rowSpan={getRowSpan(startDate, index, item_time)}
@@ -265,6 +281,8 @@ const TimeTable = ({ solution, is_time_overlap }) => {
                       className={"align-middle text-center " + add_to_class}
                     >
                       {text}
+                      <br />
+                      {time_text}
                     </td>
                   );
                 } else {
