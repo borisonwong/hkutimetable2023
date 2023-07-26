@@ -791,9 +791,9 @@ function App(tot_data) {
                 "CLASS SECTION": time_row_dict_1["CLASS SECTION"],
                 "START TIME": start_time_1,
                 "END TIME": end_time_1,
+                VENUE: time_row_dict_1["VENUE"],
                 COLOR: color_seq[subclass_dict_iter],
               };
-              // console.log(color_seq[subclass_dict_iter]);
               all_time_row_date_list.push(datetime_dict);
             }
           }

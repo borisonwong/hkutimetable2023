@@ -59,6 +59,7 @@ const TimeTable = ({ solution, is_time_overlap }) => {
           k["COURSE CODE"] + "-" + k["CLASS SECTION"],
           k["COLOR"],
           getTimePeriodFromNum(k["START TIME"], k["END TIME"]),
+          k["VENUE"],
         ];
       }
     }
@@ -321,7 +322,9 @@ const TimeTable = ({ solution, is_time_overlap }) => {
         <tbody>
           {time_list.map((item_time) => (
             <tr>
-              <td style={{ width: "16%" }}>{item_time}</td>
+              <td style={{ width: "16%" }} className="align-middle">
+                {item_time}
+              </td>
               {day_list.map((item, index) => {
                 if (getNeedDisplay(startDate, index, item_time)) {
                   let add_to_class = "";
@@ -332,6 +335,7 @@ const TimeTable = ({ solution, is_time_overlap }) => {
                   );
                   const text = returnFromCellDisplay[0];
                   const time_text = returnFromCellDisplay[2];
+                  const venue_text = returnFromCellDisplay[3];
                   return (
                     <td
                       rowSpan={getRowSpan(startDate, index, item_time)}
@@ -344,6 +348,8 @@ const TimeTable = ({ solution, is_time_overlap }) => {
                       {text}
                       <br />
                       {time_text}
+                      <br />
+                      {venue_text}
                     </td>
                   );
                 } else {
