@@ -16,6 +16,7 @@ const SolutionContainer = ({
   sol_onClick,
   sol_checkSelect,
   sol_noneSelected,
+  sol_hashfunction,
 }) => {
   if (solution_list.length == 0) {
     return <div className="row"></div>;
@@ -41,7 +42,10 @@ const SolutionContainer = ({
       {solution_list.map((item, index) => {
         if (sol_noneSelected || sol_checkSelect(index)) {
           return (
-            <div className="col-12 col-sm-6 col-md-4 col-md-3">
+            <div
+              className="col-12 col-sm-6 col-md-4 col-md-3"
+              key={item["sol_hash"]}
+            >
               <div className="card border-primary mb-3">
                 <h5 className={get_card_class(index, "card_header")}>
                   Solution {parseInt(index) + 1}
@@ -49,12 +53,22 @@ const SolutionContainer = ({
                 </h5>
                 <div className="card-body">
                   <ul className="list-group list-group-flush">
-                    {item["solution_list"].map((item) => (
-                      <li className="list-group-item">
-                        {item["COURSE CODE"] + "-" + item["CLASS SECTION"]}
+                    {item["solution_list"].map((item_course_section) => (
+                      <li
+                        className="list-group-item"
+                        key={sol_hashfunction(
+                          item["sol_hash"] +
+                            item_course_section["COURSE CODE"] +
+                            "-" +
+                            item_course_section["CLASS SECTION"]
+                        )}
+                      >
+                        {item_course_section["COURSE CODE"] +
+                          "-" +
+                          item_course_section["CLASS SECTION"]}
                         {equivalent_getter(
-                          item["COURSE CODE"],
-                          item["CLASS SECTION"]
+                          item_course_section["COURSE CODE"],
+                          item_course_section["CLASS SECTION"]
                         ).map((item) => (
                           <>{"/" + item}</>
                         ))}

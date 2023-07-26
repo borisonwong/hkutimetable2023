@@ -248,7 +248,6 @@ function initialize() {
   }
 }
 initialize();
-console.log(course_list);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>

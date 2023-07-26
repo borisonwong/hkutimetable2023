@@ -4,6 +4,15 @@ import { ChangeEvent, useState } from "react";
 
 const TimeTable = ({ solution, is_time_overlap }) => {
   const all_time_row_date_list = solution["ALL TIME ROW DATE"];
+  var earliest_date = new Date();
+  for (var time_row_iter in solution["ALL TIME ROW DATE"]) {
+    const time_row = solution["ALL TIME ROW DATE"][time_row_iter];
+    if (time_row_iter == 0) {
+      earliest_date = new Date(time_row["DATE"]);
+    } else if (time_row["DATE"].getTime() < earliest_date.getTime()) {
+      earliest_date = new Date(time_row["DATE"]);
+    }
+  }
   function getTimePeriodFromNum(num_start, num_end) {
     const hour_start = Math.floor(num_start / 60);
     const min_start = num_start - hour_start * 60;
@@ -140,8 +149,7 @@ const TimeTable = ({ solution, is_time_overlap }) => {
     check_date.setDate(start_date.getDate() + pos);
     return check_date.toLocaleDateString("en-UK");
   }
-
-  const today = new Date();
+  const today = new Date(earliest_date);
   var init_startDate = new Date(today);
   const init_day = init_startDate.getDay();
   init_startDate.setDate(init_startDate.getDate() - init_day);
@@ -192,6 +200,17 @@ const TimeTable = ({ solution, is_time_overlap }) => {
       updateStartDate(newDate);
     }
   };
+  const handleWeekChange = (direction) => {
+    if (direction == "left") {
+      var new_startDate = new Date(startDate);
+      new_startDate.setDate(startDate.getDate() - 7);
+      setStartDate(new_startDate);
+    } else {
+      var new_startDate = new Date(startDate);
+      new_startDate.setDate(startDate.getDate() + 7);
+      setStartDate(new_startDate);
+    }
+  };
   const day_list = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
   let time_list = [];
   for (let time_iter = 8; time_iter < 22; time_iter++) {
@@ -217,6 +236,27 @@ const TimeTable = ({ solution, is_time_overlap }) => {
   return (
     <div>
       <div className="input-group mb-3">
+        <button
+          className="btn btn-outline-secondary"
+          type="button"
+          onClick={(event) => handleWeekChange("left")}
+        >
+          <i className="bi bi-arrow-left">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-arrow-left"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fillRule="evenodd"
+                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
+              />
+            </svg>
+          </i>
+        </button>
         <span className="input-group-text">Y</span>
         <input
           type="text"
@@ -241,10 +281,31 @@ const TimeTable = ({ solution, is_time_overlap }) => {
           aria-label="Server"
           onChange={handleDayChange}
         />
+        <button
+          className="btn btn-outline-secondary"
+          type="button"
+          onClick={(event) => handleWeekChange("right")}
+        >
+          <i className="bi bi-arrow-right">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-arrow-right"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fillRule="evenodd"
+                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
+              />
+            </svg>
+          </i>
+        </button>
       </div>
       <table className="table table-bordered">
         <thead>
-          <tr style={{ "background-color": "#f7f7f7" }}>
+          <tr style={{ backgroundColor: "#f7f7f7" }}>
             <th style={{ width: "16%" }} className="align-middle">
               Time
             </th>
