@@ -24,77 +24,81 @@ const SolutionContainer = ({
       return <></>;
     }
     return (
-      <div className="row">
+      <>
         <div className="alert alert-warning" role="alert">
           Sorry, no solutions are found. However, we got some solutions that
           involve timeclashes that may help you :D.
         </div>
-        {invalid_solution_list.map((item, index) => (
-          <div className="card px-0 my-3">
-            <h5 className="card-header">Solution {index + 1}</h5>
-            <div className="card-body">
-              <div className="row no-gutters">
-                <div className="col">
-                  <h6 className="card-subtitle mb-2">Course list:</h6>
-                  <ul className="list-group">
-                    {item["solution_list"].map((item_subclass) => (
-                      <li
-                        className="list-group-item"
-                        key={sol_hashfunction(
-                          item["sol_hash"] +
-                            item_subclass["COURSE CODE"] +
-                            "-" +
-                            item_subclass["CLASS SECTION"]
-                        )}
-                      >
-                        {item_subclass["COURSE CODE"] +
-                          "-" +
-                          item_subclass["CLASS SECTION"]}
-                        {equivalent_getter(
-                          item_subclass["COURSE CODE"],
-                          item_subclass["CLASS SECTION"]
-                        ).map((item) => (
-                          <>{"/" + item}</>
+        <div className="row row-cols-1 row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-3">
+          {invalid_solution_list.map((item, index) => (
+            <div className="col">
+              <div className="card px-0 my-1">
+                <h5 className="card-header">Solution {index + 1}</h5>
+                <div className="card-body">
+                  <div className="row no-gutters">
+                    <div className="col">
+                      <h6 className="card-subtitle mb-2">Course list:</h6>
+                      <ul className="list-group">
+                        {item["solution_list"].map((item_subclass) => (
+                          <li
+                            className="list-group-item"
+                            key={sol_hashfunction(
+                              item["sol_hash"] +
+                                item_subclass["COURSE CODE"] +
+                                "-" +
+                                item_subclass["CLASS SECTION"]
+                            )}
+                          >
+                            {item_subclass["COURSE CODE"] +
+                              "-" +
+                              item_subclass["CLASS SECTION"]}
+                            {equivalent_getter(
+                              item_subclass["COURSE CODE"],
+                              item_subclass["CLASS SECTION"]
+                            ).map((item) => (
+                              <>{"/" + item}</>
+                            ))}
+                          </li>
                         ))}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="col">
-                  <h6 className="card-subtitle mb-2">
-                    Impermissible combinations:
-                  </h6>
-                  <ul className="list-group">
-                    {item["conflict_pair_list"].map((conflict_pair) => (
-                      <li className="list-group-item border-danger">
-                        {conflict_pair[0]["COURSE CODE"] +
-                          "-" +
-                          conflict_pair[0]["CLASS SECTION"]}
-                        {equivalent_getter(
-                          conflict_pair[0]["COURSE CODE"],
-                          conflict_pair[0]["CLASS SECTION"]
-                        ).map((item) => (
-                          <>{"/" + item}</>
-                        ))}{" "}
-                        and{" "}
-                        {conflict_pair[1]["COURSE CODE"] +
-                          "-" +
-                          conflict_pair[1]["CLASS SECTION"]}
-                        {equivalent_getter(
-                          conflict_pair[1]["COURSE CODE"],
-                          conflict_pair[1]["CLASS SECTION"]
-                        ).map((item) => (
-                          <>{"/" + item}</>
+                      </ul>
+                    </div>
+                    <div className="col">
+                      <h6 className="card-subtitle mb-2">
+                        Impermissible combinations:
+                      </h6>
+                      <ul className="list-group">
+                        {item["conflict_pair_list"].map((conflict_pair) => (
+                          <li className="list-group-item border-danger">
+                            {conflict_pair[0]["COURSE CODE"] +
+                              "-" +
+                              conflict_pair[0]["CLASS SECTION"]}
+                            {equivalent_getter(
+                              conflict_pair[0]["COURSE CODE"],
+                              conflict_pair[0]["CLASS SECTION"]
+                            ).map((item) => (
+                              <>{"/" + item}</>
+                            ))}{" "}
+                            and{" "}
+                            {conflict_pair[1]["COURSE CODE"] +
+                              "-" +
+                              conflict_pair[1]["CLASS SECTION"]}
+                            {equivalent_getter(
+                              conflict_pair[1]["COURSE CODE"],
+                              conflict_pair[1]["CLASS SECTION"]
+                            ).map((item) => (
+                              <>{"/" + item}</>
+                            ))}
+                          </li>
                         ))}
-                      </li>
-                    ))}
-                  </ul>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </>
     );
   }
   function get_card_class(num, layer) {
@@ -118,12 +122,11 @@ const SolutionContainer = ({
       <h5 className="display-6">
         {solution_list.length.toString() + " Possibilities found"}
       </h5>
-      <div className="container overflow-auto solution-menu-bar">
+      <div className="container card-group overflow-auto solution-menu-bar">
         {solution_list.map((item, index) => {
-          // if (sol_noneSelected || sol_checkSelect(index)) {
           return (
             <div
-              className="col-12 col-sm-12 col-md-4 col-lg-12"
+              className="col-12 col-sm-12 col-md-6 col-lg-12 px-2"
               key={item["sol_hash"]}
             >
               <div className="card border-primary mb-3">

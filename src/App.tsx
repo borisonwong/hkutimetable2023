@@ -385,6 +385,16 @@ function is_sol_equal(sol_1, sol_2) {
 }
 
 function App(tot_data) {
+  function get_timetable_size_from_solution() {
+    if (solutionList.length == 0 && invalidSolutionList.length > 0) {
+      return ["col-12 col-sm-12 col-md-12 col-lg-12 my-3", "col-0"];
+    } else {
+      return [
+        "col-12 col-sm-12 col-md-12 col-lg-4 my-3",
+        "col-12 col-sm-12 col-md-12 col-lg-8 my-3 overflow-auto",
+      ];
+    }
+  }
   var algorithm_run_count = 0;
   const get_equivalent = (course_code, class_section) => {
     let tmp_list = [];
@@ -968,7 +978,7 @@ function App(tot_data) {
           </div>
         </div>
         <div className="row my-3">
-          <div className="col-12 col-sm-12 col-md-12 col-lg-4 my-3">
+          <div className={get_timetable_size_from_solution()[0]}>
             <SolutionContainer
               solution_list={solutionList}
               invalid_solution_list={invalidSolutionList}
@@ -979,7 +989,7 @@ function App(tot_data) {
               sol_hashfunction={SHA1}
             ></SolutionContainer>
           </div>
-          <div className="col-12 col-sm-12 col-md-12 col-lg-8 my-3 overflow-auto">
+          <div className={get_timetable_size_from_solution()[1]}>
             {solSelected >= 0 && (
               <TimeTable
                 equivalent_getter={get_equivalent}

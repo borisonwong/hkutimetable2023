@@ -36,7 +36,9 @@ const TimeTable = ({
   // const startTimetableIndex = 4;
   // const endTimetableIndex = time_list.length - 8;
   const [startTimetableIndex, setStartTimetableIndex] = useState(0);
-  const [endTimetableIndex, setEndTimetableIndex] = useState(time_list.length);
+  const [endTimetableIndex, setEndTimetableIndex] = useState(
+    time_list.length - 1
+  );
 
   var earliest_date = new Date();
   for (var time_row_iter in solution["ALL TIME ROW DATE"]) {
