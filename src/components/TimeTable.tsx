@@ -8,6 +8,7 @@ const TimeTable = ({
   is_time_overlap,
   equivalent_getter,
   sol_num,
+  hash_func,
 }) => {
   const all_time_row_date_list = solution["ALL TIME ROW DATE"];
   const day_list = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
@@ -339,7 +340,7 @@ const TimeTable = ({
             {time_list.map((item, index) => {
               if (index < endTimetableIndex) {
                 return (
-                  <li>
+                  <li key={hash_func("start" + item)}>
                     <button
                       className="dropdown-item"
                       onClick={() => setStartTimetableIndex(index)}
@@ -368,7 +369,7 @@ const TimeTable = ({
             {time_list.map((item, index) => {
               if (index > startTimetableIndex) {
                 return (
-                  <li>
+                  <li key={hash_func("end" + item)}>
                     <button
                       className="dropdown-item"
                       onClick={() => setEndTimetableIndex(index)}

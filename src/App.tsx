@@ -986,6 +986,7 @@ function App(tot_data) {
                 solution={solutionList[solSelected - 1]}
                 is_time_overlap={is_time_overlap}
                 sol_num={solSelected}
+                hash_func={SHA1}
               ></TimeTable>
             )}
           </div>
