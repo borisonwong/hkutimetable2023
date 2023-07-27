@@ -435,6 +435,7 @@ function App(tot_data) {
       tmp_list.push(course_input_list[j][random_choice]);
     }
     const combination_list = get_combinations(tmp_list);
+    solution_dict["conflict_pair_list"] = [];
     solution_dict["solution_list"] = tmp_list;
     for (var pair_iter in combination_list) {
       const pair = combination_list[pair_iter];
@@ -446,6 +447,9 @@ function App(tot_data) {
         pair[1]["COURSE CODE"],
         pair[1]["CLASS SECTION"]
       );
+      if (is_overlap_bool) {
+        solution_dict["conflict_pair_list"].push(pair);
+      }
       solution_dict["num_conflict"] += conflict_list.length;
     }
     if (solution_dict["num_conflict"] == 0) {
@@ -625,9 +629,15 @@ function App(tot_data) {
             index_2 = j;
           }
         }
-        var child_1_dict = { num_conflict: 0, fitness_value: 0 };
+        var child_1_dict = {
+          num_conflict: 0,
+          fitness_value: 0,
+        };
         var child_1_list = [];
-        var child_2_dict = { num_conflict: 0, fitness_value: 0 };
+        var child_2_dict = {
+          num_conflict: 0,
+          fitness_value: 0,
+        };
         var child_2_list = [];
         for (let j in course_input_list) {
           const random_num = Math.floor(Math.random() * 2);
@@ -640,6 +650,7 @@ function App(tot_data) {
           }
         }
         const combination_list_1 = get_combinations(child_1_list);
+        child_1_dict["conflict_pair_list"] = [];
         child_1_dict["solution_list"] = child_1_list;
         for (var pair_iter in combination_list_1) {
           const pair = combination_list_1[pair_iter];
@@ -651,6 +662,9 @@ function App(tot_data) {
             pair[1]["CLASS SECTION"]
           );
           child_1_dict["num_conflict"] += conflict_list_1.length;
+          if (is_overlap_bool_1) {
+            child_1_dict["conflict_pair_list"].push(pair);
+          }
         }
         if (child_1_dict["num_conflict"] == 0) {
           child_1_dict["fitness_value"] = 1.5;
@@ -659,6 +673,7 @@ function App(tot_data) {
         }
         const combination_list_2 = get_combinations(child_2_list);
         child_2_dict["solution_list"] = child_2_list;
+        child_2_dict["conflict_pair_list"] = [];
         for (var pair_iter in combination_list_2) {
           const pair = combination_list_1[pair_iter];
           const [is_overlap_bool_2, conflict_list_2] = is_section_overlap(
@@ -669,6 +684,9 @@ function App(tot_data) {
             pair[1]["CLASS SECTION"]
           );
           child_2_dict["num_conflict"] += conflict_list_2.length;
+          if (is_overlap_bool_2) {
+            child_2_dict["conflict_pair_list"].push(pair);
+          }
         }
         if (child_2_dict["num_conflict"] == 0) {
           child_2_dict["fitness_value"] = 1.5;
@@ -682,10 +700,8 @@ function App(tot_data) {
       }
       sortListGA(solution_list);
       solution_list = solution_list.splice(0, 20);
-      // console.log(solution_list);
       // Remove duplicated solutions
       var updated_solution_list = [];
-      // console.log("PASS 430");
       for (let i in solution_list) {
         let is_duplicate = false;
         if (i < solution_list.length - 1) {
@@ -699,7 +715,6 @@ function App(tot_data) {
           updated_solution_list.push(solution_list[i]);
         }
       }
-      // console.log("PASS 444");
       solution_list = updated_solution_list.slice();
       while (solution_list.length < 20) {
         const generated_dict = get_random_solution_dict(
@@ -722,9 +737,11 @@ function App(tot_data) {
       }
       if (is_duplicate == false) {
         updated_solution_list.push(solution_list[i]);
+        solution_list[i]["sol_hash"] = get_hash_sol(solution_list[i]);
       }
     }
     sortListGA(updated_solution_list);
+    console.log(updated_solution_list);
     let cut_index = -1;
     for (let solution_iter in updated_solution_list) {
       if (parseInt(updated_solution_list[solution_iter]["num_conflict"]) > 0) {
@@ -732,8 +749,13 @@ function App(tot_data) {
         break;
       }
     }
-    // console.log(updated_solution_list);
+    let invalid_solution_list = [];
+    const tot_sol_count = updated_solution_list.length;
     if (cut_index > -1) {
+      invalid_solution_list = updated_solution_list.slice(
+        cut_index,
+        tot_sol_count
+      );
       updated_solution_list = updated_solution_list.slice(0, cut_index);
     } else {
       updated_solution_list = updated_solution_list.slice();
@@ -742,7 +764,6 @@ function App(tot_data) {
       const solution = updated_solution_list[iter];
       let all_time_row_date_list = [];
       const subclass_list = solution["solution_list"];
-      // let subclass_name_list = [];
       const color_seq = get_random_seq(subclass_list.length);
       for (let subclass_dict_iter in subclass_list) {
         const subclass_dict = subclass_list[subclass_dict_iter];
@@ -801,13 +822,10 @@ function App(tot_data) {
       }
       solution["ALL TIME ROW DATE"] = all_time_row_date_list;
     }
-    for (var sol_iter in updated_solution_list) {
-      updated_solution_list[sol_iter]["sol_hash"] = get_hash_sol(
-        updated_solution_list[sol_iter]
-      );
-    }
     solution_list = updated_solution_list.slice();
     setSolutionList(solution_list);
+    setInvalidSolutionList(invalid_solution_list.slice());
+    console.log(invalid_solution_list);
   }
   const useful_tot_data = tot_data["tot_data"];
   sortList(useful_tot_data);
@@ -816,6 +834,7 @@ function App(tot_data) {
   const [showList, setShowList] = useState(useful_tot_data);
   const [selectedList, setSelectedList] = useState([]);
   const [solutionList, setSolutionList] = useState([]);
+  const [invalidSolutionList, setInvalidSolutionList] = useState([]);
   const [solSelected, setSolutionSelected] = useState(-1);
   const handleCodeSearch = (event: ChangeEvent) =>
     setCodeSearch(event.target.value);
@@ -852,6 +871,7 @@ function App(tot_data) {
                 attention to the followings:
               </p>
               <ul>
+                <li>The app generates at most 20 solutions.</li>
                 <li>
                   It may take up to 20 seconds to generate the results, please
                   be patient. If your browser says the app is not responding,
@@ -955,6 +975,7 @@ function App(tot_data) {
           </h1>
           <SolutionContainer
             solution_list={solutionList}
+            invalid_solution_list={invalidSolutionList}
             equivalent_getter={get_equivalent}
             sol_onClick={handleToggleSolution}
             sol_checkSelect={checkSelectedSolution}
@@ -974,7 +995,7 @@ function App(tot_data) {
         className="text-center p-4"
         style={{ backgroundColor: "rgba(0, 0, 0, 0.025)" }}
       >
-        Last update: 25th July 2023. Beta version.
+        Last update: 26th July 2023. Version 1.0.
       </div>
     </>
   );
