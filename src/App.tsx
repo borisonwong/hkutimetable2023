@@ -967,29 +967,29 @@ function App(tot_data) {
             ></OptionTable>
           </div>
         </div>
-        <div className="row">
-          <h1 className="display-6">
-            {"Possible Combinations: " +
-              solutionList.length.toString() +
-              " found"}
-          </h1>
-          <SolutionContainer
-            solution_list={solutionList}
-            invalid_solution_list={invalidSolutionList}
-            equivalent_getter={get_equivalent}
-            sol_onClick={handleToggleSolution}
-            sol_checkSelect={checkSelectedSolution}
-            sol_noneSelected={solSelected == -1}
-            sol_hashfunction={SHA1}
-          ></SolutionContainer>
-          {solSelected >= 0 && <h1>Timetable for Solution {solSelected}</h1>}
+        <div className="row my-3">
+          <div className="col-12 col-sm-12 col-md-12 col-lg-4 my-3">
+            <SolutionContainer
+              solution_list={solutionList}
+              invalid_solution_list={invalidSolutionList}
+              equivalent_getter={get_equivalent}
+              sol_onClick={handleToggleSolution}
+              sol_checkSelect={checkSelectedSolution}
+              sol_noneSelected={solSelected == -1}
+              sol_hashfunction={SHA1}
+            ></SolutionContainer>
+          </div>
+          <div className="col-12 col-sm-12 col-md-12 col-lg-8 my-3 overflow-auto">
+            {solSelected >= 0 && (
+              <TimeTable
+                equivalent_getter={get_equivalent}
+                solution={solutionList[solSelected - 1]}
+                is_time_overlap={is_time_overlap}
+                sol_num={solSelected}
+              ></TimeTable>
+            )}
+          </div>
         </div>
-        {solSelected >= 0 && (
-          <TimeTable
-            solution={solutionList[solSelected - 1]}
-            is_time_overlap={is_time_overlap}
-          ></TimeTable>
-        )}
       </div>
       <div
         className="text-center p-4"

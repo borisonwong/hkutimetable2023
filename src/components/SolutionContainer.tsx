@@ -50,6 +50,12 @@ const SolutionContainer = ({
                         {item_subclass["COURSE CODE"] +
                           "-" +
                           item_subclass["CLASS SECTION"]}
+                        {equivalent_getter(
+                          item_subclass["COURSE CODE"],
+                          item_subclass["CLASS SECTION"]
+                        ).map((item) => (
+                          <>{"/" + item}</>
+                        ))}
                       </li>
                     ))}
                   </ul>
@@ -63,11 +69,23 @@ const SolutionContainer = ({
                       <li className="list-group-item border-danger">
                         {conflict_pair[0]["COURSE CODE"] +
                           "-" +
-                          conflict_pair[0]["CLASS SECTION"]}{" "}
+                          conflict_pair[0]["CLASS SECTION"]}
+                        {equivalent_getter(
+                          conflict_pair[0]["COURSE CODE"],
+                          conflict_pair[0]["CLASS SECTION"]
+                        ).map((item) => (
+                          <>{"/" + item}</>
+                        ))}{" "}
                         and{" "}
                         {conflict_pair[1]["COURSE CODE"] +
                           "-" +
                           conflict_pair[1]["CLASS SECTION"]}
+                        {equivalent_getter(
+                          conflict_pair[1]["COURSE CODE"],
+                          conflict_pair[1]["CLASS SECTION"]
+                        ).map((item) => (
+                          <>{"/" + item}</>
+                        ))}
                       </li>
                     ))}
                   </ul>
@@ -97,11 +115,15 @@ const SolutionContainer = ({
   }
   return (
     <div className="row">
-      {solution_list.map((item, index) => {
-        if (sol_noneSelected || sol_checkSelect(index)) {
+      <h5 className="display-6">
+        {solution_list.length.toString() + " Possibilities found"}
+      </h5>
+      <div className="container overflow-auto solution-menu-bar">
+        {solution_list.map((item, index) => {
+          // if (sol_noneSelected || sol_checkSelect(index)) {
           return (
             <div
-              className="col-12 col-sm-6 col-md-4 col-md-3"
+              className="col-12 col-sm-12 col-md-4 col-lg-12"
               key={item["sol_hash"]}
             >
               <div className="card border-primary mb-3">
@@ -143,10 +165,11 @@ const SolutionContainer = ({
               </div>
             </div>
           );
-        } else {
-          return <></>;
-        }
-      })}
+          // } else {
+          //   return <></>;
+          // }
+        })}
+      </div>
     </div>
   );
 };

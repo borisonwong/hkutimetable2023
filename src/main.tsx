@@ -88,14 +88,7 @@ function initialize() {
     const course_section_iterate = course_section_list[i];
     var found = false;
     for (var course_index_iterate in course_dict) {
-      // console.log(course_index_iterate);
-      // if (course_index_iterate == "CENG9001") {
-      //   console.log(course_section_iterate);
-      // }
       if (course_section_iterate["COURSE CODE"] == course_index_iterate) {
-        // if (course_section_iterate["COURSE CODE"] == "CENG9001") {
-        //   console.log(course_section_iterate);
-        // }
         var total_same_timeslot = false;
         for (const [previous_course_section_iterate, value] of Object.entries(
           course_dict[course_index_iterate]["COURSE SECTION DICT"]
@@ -132,28 +125,6 @@ function initialize() {
               course_row_iterate_index < iterMax;
               course_row_iterate_index++
             ) {
-              // if (course_index_iterate == "CENG9001") {
-              //   console.log(
-              //     course_dict[course_index_iterate]["COURSE SECTION DICT"][
-              //       previous_course_section_iterate
-              //     ]["COURSE ROW LIST"][course_row_iterate_index]
-              //   );
-              //   console.log(
-              //     course_section_iterate["COURSE ROW LIST"][
-              //       course_row_iterate_index
-              //     ]
-              //   );
-              //   console.log(
-              //     is_same_timeslot(
-              //       course_dict[course_index_iterate]["COURSE SECTION DICT"][
-              //         previous_course_section_iterate
-              //       ]["COURSE ROW LIST"][course_row_iterate_index],
-              //       course_section_iterate["COURSE ROW LIST"][
-              //         course_row_iterate_index
-              //       ]
-              //     )
-              //   );
-              // }
               if (
                 is_same_timeslot(
                   course_dict[course_index_iterate]["COURSE SECTION DICT"][
@@ -164,27 +135,6 @@ function initialize() {
                   ]
                 ) == false
               ) {
-                // if (course_section_iterate["COURSE CODE"] == "CENG9001") {
-                //   console.log(course_section_iterate);
-                //   console.log(previous_course_section_iterate);
-                //   console.log(
-                //     course_dict[course_index_iterate]["COURSE SECTION DICT"][
-                //       previous_course_section_iterate
-                //     ]["CLASS SECTION"]
-                //   );
-                // }
-                // if (course_index_iterate == "CENG9001") {
-                //   console.log(
-                //     course_dict[course_index_iterate]["COURSE SECTION DICT"][
-                //       previous_course_section_iterate
-                //     ]
-                //   );
-                //   console.log(
-                //     course_section_iterate["COURSE ROW LIST"][
-                //       course_row_iterate_index
-                //     ]
-                //   );
-                // }
                 same_timeslot_bool = false;
                 break;
               }
@@ -193,15 +143,6 @@ function initialize() {
             same_timeslot_bool = false;
           }
           if (same_timeslot_bool) {
-            // if (course_section_iterate["COURSE CODE"] == "CENG9001") {
-            //   console.log(course_section_iterate);
-            //   console.log(previous_course_section_iterate);
-            //   console.log(
-            //     course_dict[course_index_iterate]["COURSE SECTION DICT"][
-            //       previous_course_section_iterate
-            //     ]["CLASS SECTION"]
-            //   );
-            // }
             course_section_iterate["EQUIVALENT SECTION"] =
               course_dict[course_index_iterate]["COURSE SECTION DICT"][
                 previous_course_section_iterate
@@ -211,15 +152,6 @@ function initialize() {
           }
         }
         if (total_same_timeslot == false) {
-          // if (course_section_iterate["COURSE CODE"] == "CENG9001") {
-          //   console.log(course_section_iterate);
-          //   // console.log(previous_course_section_iterate);
-          //   // console.log(
-          //   //   course_dict[course_index_iterate]["COURSE SECTION DICT"][
-          //   //     previous_course_section_iterate
-          //   //   ]["CLASS SECTION"]
-          //   // );
-          // }
           course_section_iterate["EQUIVALENT SECTION"] =
             course_section_iterate["CLASS SECTION"];
         }
