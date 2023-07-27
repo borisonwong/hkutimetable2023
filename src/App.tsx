@@ -870,7 +870,7 @@ function App(tot_data) {
         <div className="row">
           <div className="card">
             <div className="card-body">
-              <h1 className="card-title">HKU Timetable Planner</h1>
+              <h1 className="display-6">HKU Timetable Planner</h1>
               <p className="justify">
                 Welcome to this web app. To start with, search for for the
                 courses and click to add them. Play with the switches to specify
