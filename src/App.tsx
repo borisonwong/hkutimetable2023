@@ -893,7 +893,7 @@ function App(tot_data) {
                 </li>
                 <li>
                   Whole year courses and summer semester courses are not
-                  supported at the momment.
+                  supported at the moment.
                 </li>
                 <li>
                   Courses with extraordinary course codes/subclass codes are
