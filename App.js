@@ -280,9 +280,9 @@ function App() {
       <div className="container mx-auto my-auto py-4">
         <div className='row mb-3'>
           <div className='card'>
-          <form onSubmit={() => handleSubmit()}>
+          <form onSubmit={(tmp) => handleSubmit()}>
             <div className='row my-3'>
-                  <div className='col'><input className='form-control form-control-sm' type='file' onChange={() => handleFileChange()}/></div>
+                  <div className='col'><input className='form-control form-control-sm' type='file' onChange={(tmp) => handleFileChange()}/></div>
                   <div className='col'><button className='btn btn-primary btn-sm' type="submit">Upload</button></div>
                 </div>
               </form>
