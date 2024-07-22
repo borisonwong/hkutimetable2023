@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "bootstrap/dist/css/bootstrap.css";
-import { data } from "./2024-25_class_timetable_20240722";
+import { data } from "./2023-24_class_timetable_20230721";
 
 function is_same_timeslot(timeslot_1, timeslot_2) {
   const checklist = [

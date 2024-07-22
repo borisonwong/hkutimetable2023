@@ -19,6 +19,7 @@ function getWidth(item) {
       return "";
   }
 }
+
 const Table = ({
   data_in,
   header_in,
@@ -26,121 +27,80 @@ const Table = ({
   showMax,
   onClickRunGA,
 }: Props) => {
-  const [semOneList, setSemOneList] = useState([]);
-  const [semTwoList, setSemTwoList] = useState([]);
-  const [sameSectionList, setSameSectionList] = useState([]);
-  const deleteSectionBySemester = (courseCode, semNum) => {
-    let sameSectionListNew = [];
-    for (let i = 0; i < sameSectionList.length; i++) {
-      const sameSection = sameSectionList[i];
-      const firstTimeData = sameSection[Object.keys(sameSection)[0]][0];
-      const courseCodeIter = firstTimeData[2];
-      const courseSemIter = firstTimeData[3].slice(0, 1);
-      console.log(courseCodeIter + "; " + courseSemIter);
-      if (courseCode != courseCodeIter || semNum != courseSemIter) {
-        sameSectionListNew.push(sameSection);
+  const [shownCourseSem1, setShownCourseSem1] = useState([]);
+  const [shownCourseSem2, setShownCourseSem2] = useState([]);
+  const [subClassSelected, setSubClassSelected] = useState([]);
+  const toggleSubclass = (courseCode: string, subclassCode: string) => {
+    const currentSubClassSelected = subClassSelected.slice();
+    for (var iter = 0; iter < currentSubClassSelected.length; iter++) {
+      if (
+        currentSubClassSelected[iter].slice(0, 8) == courseCode &&
+        currentSubClassSelected[iter] != courseCode + "-" + subclassCode
+      ) {
+        currentSubClassSelected.splice(iter, 1);
+        break;
       }
     }
-    setSameSectionList(sameSectionListNew);
-  };
-  const deleteSectionAllSemester = (courseCode) => {
-    let sameSectionListNew = [];
-    for (let i = 0; i < sameSectionList.length; i++) {
-      const sameSection = sameSectionList[i];
-      const firstTimeData = sameSection[Object.keys(sameSection)[0]][0];
-      const courseCodeIter = firstTimeData[2];
-      if (courseCode != courseCodeIter) {
-        sameSectionListNew.push(sameSection);
-      }
-    }
-    setSameSectionList(sameSectionListNew);
-  };
-  const toggleSem = (courseCode, semNum) => {
-    let semOneListCopy = semOneList.slice();
-    let semTwoListCopy = semTwoList.slice();
-    if (semNum == 1) {
-      const semOneListPos = semOneListCopy.indexOf(courseCode);
-      if (semOneListPos < 0) {
-        semOneListCopy.push(courseCode);
-      } else {
-        semOneListCopy.splice(semOneListPos, 1);
-      }
-      setSemOneList(semOneListCopy);
-    }
-    if (semNum == 2) {
-      const semTwoListPos = semTwoListCopy.indexOf(courseCode);
-      if (semTwoListPos < 0) {
-        semTwoListCopy.push(courseCode);
-      } else {
-        semTwoListCopy.splice(semTwoListPos, 1);
-      }
-      setSemTwoList(semTwoListCopy);
-    }
-    if (semOneListCopy.indexOf(courseCode) < 0) {
-      deleteSectionBySemester(courseCode, 1);
-    }
-    if (semTwoListCopy.indexOf(courseCode) < 0) {
-      deleteSectionBySemester(courseCode, 2);
-    }
-  };
-  const deleteSem = (courseCode) => {
-    let semOneListCopy = semOneList.slice();
-    let semTwoListCopy = semTwoList.slice();
-    const semOneListPos = semOneListCopy.indexOf(courseCode);
-    const semTwoListPos = semTwoListCopy.indexOf(courseCode);
-    if (semOneListPos >= 0) {
-      semOneListCopy.splice(semOneListPos, 1);
-    }
-    if (semTwoListPos >= 0) {
-      semTwoListCopy.splice(semTwoListPos, 1);
-    }
-    deleteSectionAllSemester(courseCode);
-    setSemOneList(semOneListCopy);
-    setSemTwoList(semTwoListCopy);
-  };
-  const toggleSameSection = (sameSection) => {
-    let sameSectionListCopy = sameSectionList.slice();
-    const sameSectionIndex = sameSectionListCopy.indexOf(sameSection);
-    if (sameSectionIndex < 0) {
-      sameSectionListCopy.push(sameSection);
+    const index = currentSubClassSelected.indexOf(
+      courseCode + "-" + subclassCode
+    );
+    if (index >= 0) {
+      currentSubClassSelected.splice(index, 1);
+      setSubClassSelected(currentSubClassSelected);
     } else {
-      sameSectionListCopy.splice(sameSectionIndex, 1);
+      currentSubClassSelected.push(courseCode + "-" + subclassCode);
+      setSubClassSelected(currentSubClassSelected);
     }
-    setSameSectionList(sameSectionListCopy);
   };
-  const getGAInput = () => {
-    let returnDict = {};
-    for (let i = 0; i < sameSectionList.length; i++) {
-      const courseCode =
-        sameSectionList[i][Object.keys(sameSectionList[i])[0]][0][2];
-      if (Object.keys(returnDict).indexOf(courseCode) == -1) {
-        returnDict[courseCode] = [sameSectionList[i]];
-      } else {
-        returnDict[courseCode].push(sameSectionList[i]);
+  const toggleShownSem1 = (courseCode: string) => {
+    const currentSubClassSelected = subClassSelected.slice();
+    var prev_pos = 0;
+    var prev_found = false;
+    for (var iter = 0; iter < currentSubClassSelected.length; iter++) {
+      if (currentSubClassSelected[iter].slice(0, 8) == courseCode) {
+        prev_pos = iter;
+        prev_found = true;
+        break;
       }
     }
-    for (let i = 0; i < data_in.length; i++) {
-      const courseCode = data_in[i]["COURSE CODE"];
-      const course = data_in[i];
-      if (Object.keys(returnDict).indexOf(courseCode) == -1) {
-        //  No specified course section
-        const inSemOneList = semOneList.indexOf(courseCode) >= 0;
-        const inSemTwoList = semTwoList.indexOf(courseCode) >= 0;
-        returnDict[courseCode] = [];
-        for (let j = 0; j < course["SAME SECTION"].length; j++) {
-          const sameSection = course["SAME SECTION"][j];
-          const sem = Object.keys(sameSection)[0].slice(0, 1);
-          if (
-            (inSemOneList && sem == 1) ||
-            (inSemTwoList && sem == 2) ||
-            (!inSemOneList && !inSemTwoList)
-          ) {
-            returnDict[courseCode].push(sameSection);
-          }
-        }
+    const shownCourseSem1State = shownCourseSem1.slice();
+    const index = shownCourseSem1State.indexOf(courseCode);
+    if (index >= 0) {
+      shownCourseSem1State.splice(index, 1);
+      setShownCourseSem1(shownCourseSem1State);
+      if (prev_found && currentSubClassSelected[prev_pos].slice(9, 10) == "1") {
+        currentSubClassSelected.splice(prev_pos, 1);
+        setSubClassSelected(currentSubClassSelected);
+      }
+    } else {
+      shownCourseSem1State.push(courseCode);
+      setShownCourseSem1(shownCourseSem1State);
+    }
+  };
+  const toggleShownSem2 = (courseCode: string) => {
+    const currentSubClassSelected = subClassSelected.slice();
+    var prev_pos = 0;
+    var prev_found = false;
+    for (var iter = 0; iter < currentSubClassSelected.length; iter++) {
+      if (currentSubClassSelected[iter].slice(0, 8) == courseCode) {
+        prev_pos = iter;
+        prev_found = true;
+        break;
       }
     }
-    return returnDict;
+    const shownCourseSem2State = shownCourseSem2.slice();
+    const index = shownCourseSem2State.indexOf(courseCode);
+    if (index >= 0) {
+      shownCourseSem2State.splice(index, 1);
+      setShownCourseSem2(shownCourseSem2State);
+      if (prev_found && currentSubClassSelected[prev_pos].slice(9, 10) == "2") {
+        currentSubClassSelected.splice(prev_pos, 1);
+        setSubClassSelected(currentSubClassSelected);
+      }
+    } else {
+      shownCourseSem2State.push(courseCode);
+      setShownCourseSem2(shownCourseSem2State);
+    }
   };
   return (
     <>
@@ -157,41 +117,67 @@ const Table = ({
         <tbody className="table-striped">
           {data_in
             .filter((item, index) => index < showMax && item)
-            .map((item, course_index) => (
+            .map((item, index) => (
               <tr key={item["COURSE CODE"]}>
                 <td>
                   {item["COURSE CODE"]}
                   <br />
-                  {item["SAME SECTION"]
-                    .filter(
-                      (sameSectionItem, sameSectionIndex) =>
-                        (Object.keys(sameSectionItem)[0].slice(0, 1) == 1 &&
-                          semOneList.indexOf(item["COURSE CODE"]) >= 0) ||
-                        (Object.keys(sameSectionItem)[0].slice(0, 1) == 2 &&
-                          semTwoList.indexOf(item["COURSE CODE"]) >= 0) ||
-                        (semOneList.indexOf(item["COURSE CODE"]) < 0 &&
-                          semTwoList.indexOf(item["COURSE CODE"])) < 0
-                    )
-                    .map((sameSectionItem, sameSectionIndex) => (
-                      <span
-                        className={
-                          sameSectionList.indexOf(sameSectionItem) < 0
-                            ? "badge rounded-pill text-bg-secondary me-1"
-                            : "badge rounded-pill text-bg-primary me-1"
-                        }
-                        style={{ cursor: "pointer" }}
-                        onClick={() => toggleSameSection(sameSectionItem)}
-                      >
-                        {Object.keys(sameSectionItem).map(
-                          (sameSubclassOption, sameSubclassOptionIndex) => (
-                            <>
-                              {(sameSubclassOptionIndex > 0 ? "/" : "") +
-                                sameSubclassOption}
-                            </>
-                          )
-                        )}
-                      </span>
-                    ))}
+                  {Object.keys(item["COURSE SECTION DICT"]).map(
+                    (keyName, value) => {
+                      if (
+                        (item["COURSE SECTION DICT"][keyName][
+                          "CLASS SECTION"
+                        ].slice(0, 1) == "1" &&
+                          shownCourseSem1.indexOf(item["COURSE CODE"]) >= 0) ||
+                        (item["COURSE SECTION DICT"][keyName][
+                          "CLASS SECTION"
+                        ].slice(0, 1) == "2" &&
+                          shownCourseSem2.indexOf(item["COURSE CODE"]) >= 0)
+                      ) {
+                        return (
+                          <span
+                            className={
+                              subClassSelected.indexOf(
+                                item["COURSE CODE"] +
+                                  "-" +
+                                  item["COURSE SECTION DICT"][keyName][
+                                    "CLASS SECTION"
+                                  ]
+                              ) >= 0
+                                ? "badge rounded-pill text-bg-primary me-1"
+                                : "badge rounded-pill text-bg-secondary me-1"
+                            }
+                            key={
+                              item["COURSE SECTION DICT"][keyName][
+                                "COURSE CODE"
+                              ] +
+                              "-" +
+                              item["COURSE SECTION DICT"][keyName][
+                                "CLASS SECTION"
+                              ]
+                            }
+                            style={{ cursor: "pointer" }}
+                            onClick={() =>
+                              toggleSubclass(
+                                item["COURSE SECTION DICT"][keyName][
+                                  "COURSE CODE"
+                                ],
+                                item["COURSE SECTION DICT"][keyName][
+                                  "CLASS SECTION"
+                                ]
+                              )
+                            }
+                          >
+                            {
+                              item["COURSE SECTION DICT"][keyName][
+                                "CLASS SECTION"
+                              ]
+                            }
+                          </span>
+                        );
+                      }
+                    }
+                  )}
                 </td>
                 <td>{item["COURSE TITLE"]}</td>
                 <td>
@@ -200,7 +186,7 @@ const Table = ({
                       className="form-check-input"
                       type="checkbox"
                       role="switch"
-                      onClick={() => toggleSem(item["COURSE CODE"], 1)}
+                      onClick={() => toggleShownSem1(item["COURSE CODE"])}
                     />
                   </div>
                 </td>
@@ -210,7 +196,7 @@ const Table = ({
                       className="form-check-input"
                       type="checkbox"
                       role="switch"
-                      onClick={() => toggleSem(item["COURSE CODE"], 2)}
+                      onClick={() => toggleShownSem2(item["COURSE CODE"])}
                     />
                   </div>
                 </td>
@@ -219,7 +205,22 @@ const Table = ({
                     type="button"
                     className="btn btn-secondary"
                     onClick={() => {
-                      deleteSem(item["COURSE CODE"]);
+                      const index_1 = shownCourseSem1.indexOf(
+                        item["COURSE CODE"]
+                      );
+                      const index_2 = shownCourseSem2.indexOf(
+                        item["COURSE CODE"]
+                      );
+                      if (index_1 >= 0) {
+                        const shownCourseSem1State = shownCourseSem1.slice();
+                        shownCourseSem1State.splice(index_1, 1);
+                        setShownCourseSem1(shownCourseSem1State);
+                      }
+                      if (index_2 >= 0) {
+                        const shownCourseSem2State = shownCourseSem2.slice();
+                        shownCourseSem2State.splice(index_2, 1);
+                        setShownCourseSem2(shownCourseSem2State);
+                      }
                       onClick(item["COURSE CODE"]);
                     }}
                   >
@@ -235,17 +236,13 @@ const Table = ({
         <button
           type="button"
           className="btn btn-primary"
-          // onClick={() => {
-          //   onClickRunGA(
-          //     data_in,
-          //     subClassSelected,
-          //     shownCourseSem1,
-          //     shownCourseSem2
-          //   );
-          // }}
           onClick={() => {
-            const GAInput = getGAInput();
-            onClickRunGA(GAInput);
+            onClickRunGA(
+              data_in,
+              subClassSelected,
+              shownCourseSem1,
+              shownCourseSem2
+            );
           }}
         >
           <svg
