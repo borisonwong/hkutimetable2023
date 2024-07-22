@@ -2,6 +2,7 @@
 import { ChangeEvent, useState } from "react";
 import TextInput from "./components/TextInput";
 // import { data } from "./CourseInfo";
+//  Ignore this line
 import Table from "./components/Table";
 import OptionTable from "./components/OptionTable";
 import SolutionContainer from "./components/SolutionContainer";
