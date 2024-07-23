@@ -814,6 +814,7 @@ function App(tot_data) {
             (end_1_date.getTime() - start_1_date.getTime()) /
             (1000 * 24 * 3600);
           // console.log(delta_days_1);
+          console.log("line817",start_1_date.getTime(),end_1_date.getTime());
           for (let days_add = 0; days_add < delta_days_1 + 1; days_add++) {
             var tmp_date = new Date(start_1_date);
             tmp_date.setDate(tmp_date.getDate() + days_add);
@@ -828,9 +829,7 @@ function App(tot_data) {
                 VENUE: time_row_dict_1["VENUE"],
                 COLOR: color_seq[subclass_dict_iter],
               };
-              all_time_row_date_list.push(datetime_dict);
-              console.log("line832",datetime_dict);
-            }
+              all_time_row_date_list.push(datetime_dict);            }
           }
         }
       }
