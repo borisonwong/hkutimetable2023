@@ -805,6 +805,7 @@ function App(tot_data) {
             end_date_1_list[1] - 1,
             end_date_1_list[2]
           );
+          console.log(start_1_date,end_1_date);
           const delta_days_1 =
             (end_1_date.getTime() - start_1_date.getTime()) /
             (1000 * 24 * 3600);
