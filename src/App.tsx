@@ -778,8 +778,8 @@ function App(tot_data) {
       const subclass_list = solution["solution_list"];
       const color_seq = get_random_seq(subclass_list.length);
       for (let subclass_dict_iter in subclass_list) {
-        console.log("main781",subclass_dict_iter);
         const subclass_dict = subclass_list[subclass_dict_iter];
+        console.log(subclass_dict);
         for (let course_row_iter in subclass_dict["COURSE ROW LIST"]) {
           const course_row = subclass_dict["COURSE ROW LIST"][course_row_iter];
           const time_row_dict_1 = course_row;
