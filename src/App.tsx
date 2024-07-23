@@ -796,14 +796,14 @@ function App(tot_data) {
             .map((item) => parseInt(item));
           console.log("line797",start_date_1_list,end_date_1_list);
           const start_1_date = new Date(
-            start_date_1_list[0],
+            start_date_1_list[2],
             start_date_1_list[1] - 1,
-            start_date_1_list[2]
+            start_date_1_list[0]
           );
           const end_1_date = new Date(
-            end_date_1_list[0],
+            end_date_1_list[2],
             end_date_1_list[1] - 1,
-            end_date_1_list[2]
+            end_date_1_list[0]
           );
           console.log(start_1_date,end_1_date);
           const delta_days_1 =
