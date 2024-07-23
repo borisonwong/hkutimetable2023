@@ -829,6 +829,7 @@ function App(tot_data) {
                 COLOR: color_seq[subclass_dict_iter],
               };
               all_time_row_date_list.push(datetime_dict);
+              console.log("line832",datetime_dict);
             }
           }
         }
