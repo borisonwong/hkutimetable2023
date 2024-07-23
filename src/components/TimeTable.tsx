@@ -393,6 +393,7 @@ const TimeTable = ({
                         index,
                         item_time
                       );
+                      console.log(returnFromCellDisplay);
                       const text = returnFromCellDisplay[0];
                       const time_text = returnFromCellDisplay[2];
                       const venue_text = returnFromCellDisplay[3];
