@@ -10,6 +10,7 @@ const TimeTable = ({
   sol_num,
   hash_func,
 }) => {
+  console.log(solution);
   const all_time_row_date_list = solution["ALL TIME ROW DATE"];
   const day_list = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
   let time_list = [];
