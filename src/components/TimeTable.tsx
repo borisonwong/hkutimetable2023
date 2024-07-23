@@ -165,6 +165,9 @@ const TimeTable = ({
         k["START TIME"],
         k["END TIME"]
       );
+      if(is_overlap){
+        console.log(table_start_time,table_end_time,k["START TIME"],k["END TIME"]);
+      }
       const is_prev_overlap = is_time_overlap(
         table_start_time - 30,
         table_end_time - 30,
@@ -393,7 +396,6 @@ const TimeTable = ({
                         index,
                         item_time
                       );
-                      console.log(startDate, index, item_time, returnFromCellDisplay);
                       const text = returnFromCellDisplay[0];
                       const time_text = returnFromCellDisplay[2];
                       const venue_text = returnFromCellDisplay[3];
