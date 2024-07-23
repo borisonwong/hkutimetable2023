@@ -794,7 +794,7 @@ function App(tot_data) {
           const end_date_1_list = time_row_dict_1["END DATE"]
             .split("-")
             .map((item) => parseInt(item));
-          console.log("line797",start_date_1_list,start_date_2_list);
+          console.log("line797",start_date_1_list,end_date_1_list);
           const start_1_date = new Date(
             start_date_1_list[0],
             start_date_1_list[1] - 1,
