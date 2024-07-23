@@ -157,6 +157,7 @@ const TimeTable = ({
       parseInt(time_range_str.split("-")[0].trim().split(":")[1]);
     const table_end_time = table_start_time + 30;
     const current_timeslot_index = (table_start_time / 60 - 8) * 2;
+    console.log(all_time_row_date_list);
     for (var k_iter in all_time_row_date_list) {
       const k = all_time_row_date_list[k_iter];
       const is_overlap = is_time_overlap(
@@ -165,7 +166,6 @@ const TimeTable = ({
         k["START TIME"],
         k["END TIME"]
       );
-      console.log(table_start_time,table_end_time,k["START TIME"],k["END TIME"]);
       const is_prev_overlap = is_time_overlap(
         table_start_time - 30,
         table_end_time - 30,
