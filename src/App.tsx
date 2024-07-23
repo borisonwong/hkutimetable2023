@@ -430,7 +430,6 @@ function App(tot_data) {
     }
     return tmp_list;
   };
-  // console.log(typeof get_equivalent);
   const sortList = (listIn) => {
     listIn.sort((a, b) => (a["COURSE CODE"] > b["COURSE CODE"] ? 1 : -1));
   };
@@ -520,7 +519,6 @@ function App(tot_data) {
     var course_input_list = [];
     var course_count = 0;
     var generation_req = 0;
-    // console.log(sem);
     if (sem == 3) {
       generation_req = 15;
     } else {
@@ -539,7 +537,6 @@ function App(tot_data) {
       } else {
         for (let i_iter in course_dict[course_index]["COURSE SECTION DICT"]) {
           const i = course_dict[course_index]["COURSE SECTION DICT"][i_iter];
-          // console.log(i);
           if (
             course_dict[course_index]["COURSE SECTION DICT"][i_iter][
               "EQUIVALENT SECTION"
@@ -753,7 +750,6 @@ function App(tot_data) {
       }
     }
     sortListGA(updated_solution_list);
-    console.log(updated_solution_list);
     let cut_index = -1;
     for (let solution_iter in updated_solution_list) {
       if (parseInt(updated_solution_list[solution_iter]["num_conflict"]) > 0) {
@@ -779,7 +775,6 @@ function App(tot_data) {
       const color_seq = get_random_seq(subclass_list.length);
       for (let subclass_dict_iter in subclass_list) {
         const subclass_dict = subclass_list[subclass_dict_iter];
-        console.log(subclass_dict);
         for (let course_row_iter in subclass_dict["COURSE ROW LIST"]) {
           const course_row = subclass_dict["COURSE ROW LIST"][course_row_iter];
           const time_row_dict_1 = course_row;
@@ -809,16 +804,12 @@ function App(tot_data) {
             end_date_1_list[1] - 1,
             end_date_1_list[2]
           );
-          // console.log(start_1_date);
           const delta_days_1 =
             (end_1_date.getTime() - start_1_date.getTime()) /
             (1000 * 24 * 3600);
-          // console.log(delta_days_1);
-          console.log("line817",start_1_date.getTime(),end_1_date.getTime());
           for (let days_add = 0; days_add < delta_days_1 + 1; days_add++) {
             var tmp_date = new Date(start_1_date);
             tmp_date.setDate(tmp_date.getDate() + days_add);
-            // console.log(tmp_date);
             if (day_list_1.indexOf(tmp_date.getDay()) >= 0) {
               let datetime_dict = {
                 DATE: tmp_date,
@@ -834,12 +825,10 @@ function App(tot_data) {
         }
       }
       solution["ALL TIME ROW DATE"] = all_time_row_date_list;
-      console.log("main836",all_time_row_date_list);
     }
     solution_list = updated_solution_list.slice();
     setSolutionList(solution_list);
     setInvalidSolutionList(invalid_solution_list.slice());
-    console.log(invalid_solution_list);
   }
   const useful_tot_data = tot_data["tot_data"];
   sortList(useful_tot_data);
