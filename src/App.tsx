@@ -833,6 +833,7 @@ function App(tot_data) {
         }
       }
       solution["ALL TIME ROW DATE"] = all_time_row_date_list;
+      console.log("main836",all_time_row_date_list);
     }
     solution_list = updated_solution_list.slice();
     setSolutionList(solution_list);
