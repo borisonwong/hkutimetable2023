@@ -794,7 +794,6 @@ function App(tot_data) {
           const end_date_1_list = time_row_dict_1["END DATE"]
             .split("-")
             .map((item) => parseInt(item));
-          console.log("line797",start_date_1_list,end_date_1_list);
           const start_1_date = new Date(
             start_date_1_list[2],
             start_date_1_list[1] - 1,
@@ -805,7 +804,6 @@ function App(tot_data) {
             end_date_1_list[1] - 1,
             end_date_1_list[0]
           );
-          console.log(start_1_date,end_1_date);
           const delta_days_1 =
             (end_1_date.getTime() - start_1_date.getTime()) /
             (1000 * 24 * 3600);
@@ -895,7 +893,7 @@ function App(tot_data) {
                   currently not supported.
                 </li>
                 <li>
-                  The database is developed base on 2023/24 course timetable.
+                  The database is developed base on 2024/25 course timetable. (Last update: 2024-07-23)
                 </li>
               </ul>
             </div>
@@ -1001,7 +999,7 @@ function App(tot_data) {
         className="text-center p-4"
         style={{ backgroundColor: "rgba(0, 0, 0, 0.025)" }}
       >
-        Last update: 21st July 2024. Version 1.0.
+        Last update: 23rd July 2024. Version 1.0.
       </div>
     </>
   );
