@@ -794,6 +794,7 @@ function App(tot_data) {
           const end_date_1_list = time_row_dict_1["END DATE"]
             .split("-")
             .map((item) => parseInt(item));
+          console.log("line797",start_date_1_list,start_date_2_list);
           const start_1_date = new Date(
             start_date_1_list[0],
             start_date_1_list[1] - 1,
@@ -807,7 +808,6 @@ function App(tot_data) {
           const delta_days_1 =
             (end_1_date.getTime() - start_1_date.getTime()) /
             (1000 * 24 * 3600);
-          console.log("line810",start_1_date,end_1_date);
           for (let days_add = 0; days_add < delta_days_1 + 1; days_add++) {
             var tmp_date = new Date(start_1_date);
             tmp_date.setDate(tmp_date.getDate() + days_add);
