@@ -10,7 +10,6 @@ const TimeTable = ({
   sol_num,
   hash_func,
 }) => {
-  console.log(solution);
   const all_time_row_date_list = solution["ALL TIME ROW DATE"];
   const day_list = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
   let time_list = [];
@@ -34,8 +33,6 @@ const TimeTable = ({
         "00"
     );
   }
-  // const startTimetableIndex = 4;
-  // const endTimetableIndex = time_list.length - 8;
   const [startTimetableIndex, setStartTimetableIndex] = useState(0);
   const [endTimetableIndex, setEndTimetableIndex] = useState(
     time_list.length - 1
@@ -151,13 +148,11 @@ const TimeTable = ({
   function getNeedDisplay(start_date, delta_day, time_range_str) {
     var check_date = new Date(start_date);
     check_date.setDate(check_date.getDate() + delta_day);
-    // console.log(check_date);
     const table_start_time =
       parseInt(time_range_str.split("-")[0].trim().split(":")[0]) * 60 +
       parseInt(time_range_str.split("-")[0].trim().split(":")[1]);
     const table_end_time = table_start_time + 30;
     const current_timeslot_index = (table_start_time / 60 - 8) * 2;
-    console.log(all_time_row_date_list);
     for (var k_iter in all_time_row_date_list) {
       const k = all_time_row_date_list[k_iter];
       const is_overlap = is_time_overlap(
