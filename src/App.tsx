@@ -897,7 +897,7 @@ function App(tot_data) {
                 </li>
               </ul>
               <div className="alert alert-danger" role="alert">
-                Known bug: Please use this webapp with Chrome on desktop/laptops, for some reason it is not working properly on safari and mobile devices :(. Hope will fix this soon.
+                Known bug: Please use this webapp with Chrome on desktop/laptops, for some reason it is not working properly on safari and mobile devices :( Hope will fix this soon.
               </div>
             </div>
           </div>
