@@ -896,6 +896,9 @@ function App(tot_data) {
                   The database is developed base on 2024/25 course timetable. (Last update: 2024-07-23)
                 </li>
               </ul>
+              <div className="alert alert-danger" role="alert">
+                Known bug: Please use this webapp with Chrome on desktop/laptops, for some reason it is not working properly on safari and mobile devices :(. Hope will fix this soon.
+              </div>
             </div>
           </div>
         </div>
