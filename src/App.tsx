@@ -573,6 +573,7 @@ function App(tot_data) {
       setSolutionList([]);
       return [];
     }
+    console.log("LINE 576",course_input_list);
     let solution_list = [];
     for (let i = 0; i < 20; i++) {
       const generated_dict = get_random_solution_dict(
@@ -827,6 +828,7 @@ function App(tot_data) {
       solution["ALL TIME ROW DATE"] = all_time_row_date_list;
     }
     solution_list = updated_solution_list.slice();
+    console.log("LINE 831",solution_list);
     setSolutionList(solution_list);
     setInvalidSolutionList(invalid_solution_list.slice());
   }
