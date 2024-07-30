@@ -551,11 +551,13 @@ function App(tot_data) {
           }
           if (sem == 3) {
             const course_code_iter = course_dict[course_index]["COURSE SECTION DICT"][i_iter]["COURSE CODE"];
-            const course_section_sem = course_dict[course_index]["COURSE SECTION DICT"][i_iter]["CLASS SECTION"].slice(0,1)
+            const course_section_sem = course_dict[course_index]["COURSE SECTION DICT"][i_iter]["CLASS SECTION"].slice(0,1);
+            console.log(course_code_iter,course_section_sem);
             if((course_section_sem == "1" && sem_1_list.indexOf(course_section_sem) >= 0) || (course_section_sem == "2" && sem_2_list.indexOf(course_section_sem) >= 0)){
               tmp_list.push(
                 course_dict[course_index]["COURSE SECTION DICT"][i_iter]
               );
+              console.log("PUSH");
             }
           } else if (
             course_dict[course_index]["COURSE SECTION DICT"][i_iter][
