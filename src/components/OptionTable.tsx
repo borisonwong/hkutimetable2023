@@ -104,10 +104,6 @@ const Table = ({
   };
   return (
     <>
-      {shownCourseSem1}
-      <br/>
-      {shownCourseSem2}
-      <br/>
       <table className="table table-hover">
         <thead>
           <tr>
