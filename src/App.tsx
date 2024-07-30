@@ -501,19 +501,19 @@ function App(tot_data) {
       }
     }
     var sem = 3;
-    if (
-      (sem_1_list.length == 0 && sem_2_list.length == 0) ||
-      (sem_1_list.length != 0 && sem_2_list.length != 0)
-    ) {
-      sem = 3;
-    } else {
-      if (sem_1_list.length == 0) {
-        sem = 2;
-      }
-      if (sem_2_list.length == 0) {
-        sem = 1;
-      }
-    }
+    // if (
+    //   (sem_1_list.length == 0 && sem_2_list.length == 0) ||
+    //   (sem_1_list.length != 0 && sem_2_list.length != 0)
+    // ) {
+    //   sem = 3;
+    // } else {
+    //   if (sem_1_list.length == 0) {
+    //     sem = 2;
+    //   }
+    //   if (sem_2_list.length == 0) {
+    //     sem = 1;
+    //   }
+    // }
     const course_code_list = output_course_list_1.concat(output_course_list_2);
     const fixed_section_list = output_fixed_section_list.slice();
     var course_input_list = [];
@@ -560,15 +560,16 @@ function App(tot_data) {
                 course_dict[course_index]["COURSE SECTION DICT"][i_iter]
               );
             }
-          } else if (
-            course_dict[course_index]["COURSE SECTION DICT"][i_iter][
-              "CLASS SECTION"
-            ].slice(0, 1) == sem.toString()
-          ) {
-            tmp_list.push(
-              course_dict[course_index]["COURSE SECTION DICT"][i_iter]
-            );
           }
+          // } else if (
+          //   course_dict[course_index]["COURSE SECTION DICT"][i_iter][
+          //     "CLASS SECTION"
+          //   ].slice(0, 1) == sem.toString()
+          // ) {
+          //   tmp_list.push(
+          //     course_dict[course_index]["COURSE SECTION DICT"][i_iter]
+          //   );
+          // }
         }
       }
       course_input_list.push(tmp_list);
