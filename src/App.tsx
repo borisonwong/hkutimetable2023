@@ -477,6 +477,8 @@ function App(tot_data) {
     sem_1_list,
     sem_2_list
   ) {
+    console.log("SEM 1 LIST",sem_1_list)
+    console.log("SEM 2 LIST",sem_2_list)
     algorithm_run_count += 1;
     const course_dict = tot_data["tot_data"].slice();
     let output_course_list_1 = [];
