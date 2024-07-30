@@ -477,8 +477,6 @@ function App(tot_data) {
     sem_1_list,
     sem_2_list
   ) {
-    console.log("SEM 1 LIST",sem_1_list)
-    console.log("SEM 2 LIST",sem_2_list)
     algorithm_run_count += 1;
     const course_dict = tot_data["tot_data"].slice();
     let output_course_list_1 = [];
@@ -552,12 +550,15 @@ function App(tot_data) {
           if (sem == 3) {
             const course_code_iter = course_dict[course_index]["COURSE SECTION DICT"][i_iter]["COURSE CODE"];
             const course_section_sem = course_dict[course_index]["COURSE SECTION DICT"][i_iter]["CLASS SECTION"].slice(0,1);
-            console.log(course_code_iter,course_section_sem);
             if((course_section_sem == "1" && sem_1_list.indexOf(course_code_iter) >= 0) || (course_section_sem == "2" && sem_2_list.indexOf(course_code_iter) >= 0)){
               tmp_list.push(
                 course_dict[course_index]["COURSE SECTION DICT"][i_iter]
               );
-              console.log("PUSH");
+            }
+            if(sem_1_list.indexOf(course_code_iter) < 0 && sem_2_list.indexOf(course_code_iter) < 0){
+              tmp_list.push(
+                course_dict[course_index]["COURSE SECTION DICT"][i_iter]
+              );
             }
           } else if (
             course_dict[course_index]["COURSE SECTION DICT"][i_iter][
@@ -581,7 +582,6 @@ function App(tot_data) {
       setSolutionList([]);
       return [];
     }
-    console.log("LINE 576",course_input_list);
     let solution_list = [];
     for (let i = 0; i < 20; i++) {
       const generated_dict = get_random_solution_dict(
@@ -836,7 +836,6 @@ function App(tot_data) {
       solution["ALL TIME ROW DATE"] = all_time_row_date_list;
     }
     solution_list = updated_solution_list.slice();
-    console.log("LINE 831",solution_list);
     setSolutionList(solution_list);
     setInvalidSolutionList(invalid_solution_list.slice());
   }
