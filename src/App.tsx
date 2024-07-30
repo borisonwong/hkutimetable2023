@@ -1011,7 +1011,7 @@ function App(tot_data) {
         className="text-center p-4"
         style={{ backgroundColor: "rgba(0, 0, 0, 0.025)" }}
       >
-        Last update: 23rd July 2024. Version 1.0.
+        Last update: 30rd July 2024. Version 1.0.
       </div>
     </>
   );
