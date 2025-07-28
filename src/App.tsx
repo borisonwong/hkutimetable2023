@@ -903,7 +903,7 @@ function App(tot_data) {
                   currently not supported.
                 </li>
                 <li>
-                  The database is developed base on 2024/25 course timetable. (Last update: 2024-07-23)
+                  The database is developed base on 2025/26 course timetable. (Last update: 2025-07-28)
                 </li>
               </ul>
               <div className="alert alert-danger" role="alert">
