@@ -52,14 +52,17 @@ const TimeTable = ({
     const min_start = num_start - hour_start * 60;
     const hour_end = Math.floor(num_end / 60);
     const min_end = num_end - hour_end * 60;
+
+    const padding0 = (n: number): string =>
+      n < 10 ? '0' + n : String(n);
     return (
-      hour_start.toString() +
+      padding0(hour_start) +
       ":" +
-      min_start.toString() +
+      padding0(min_start) +
       " - " +
-      hour_end.toString() +
+      padding0(hour_end) +
       ":" +
-      min_end.toString()
+      padding0(min_end)
     );
   }
   function getCellDisplay(start_date, delta_day, time_range_str) {
